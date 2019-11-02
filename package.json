@@ -1,0 +1,38 @@
+{
+  "name": "oddspot-auth-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
+    "start": "tsc && node ./dist",
+    "start:dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules ./src",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "tsc": "tsc"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.1",
+    "@types/jest": "^24.0.21",
+    "@types/jsonwebtoken": "^8.3.4",
+    "@types/supertest": "^2.0.8",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "class-validator": "^0.10.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^4.1.0",
+    "ts-node-dev": "^1.0.0-pre.43",
+    "typeorm": "^0.2.19"
+  }
+}
