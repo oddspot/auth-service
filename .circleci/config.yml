@@ -1,0 +1,70 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/auth-service
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - restore_cache:
+          name: restore-yarn-cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          name: restore-node-modules-cache
+          key: node-modules{{ checksum "yarn.lock" }}
+      - run:
+          name: install-dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          name: save-yarn-cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - save_cache:
+          name: save-node-modules-cache
+          key: node-modules{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+          
+  lint:
+    working_directory: ~/auth-service
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - restore_cache:
+          name: restore-node-modules-cache
+          key: node-modules{{ checksum "yarn.lock" }}
+      - run:
+          name: ls
+          command: ls -a
+      - run:
+          name: lint
+          command: yarn lint
+
+  test:
+    working_directory: ~/auth-service
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - restore_cache:
+          name: restore-node-modules-cache
+          key: node-modules{{ checksum "yarn.lock" }}
+      - attach_workspace: { at: '.' }
+      - run:
+          name: test
+          command: yarn test
+
+workflows:
+  version: 2.1
+  build_test:
+    jobs:
+      - build
+      - lint:
+          requires:
+            - build
+      - test:
+          requires:
+            - build
