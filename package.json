@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "lint": "tslint src/**/*.ts",
     "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "start": "tsc && node ./dist",
     "start:dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules ./src",
