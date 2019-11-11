@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  aws-ecr: circleci/aws-ecr@6.5.0
+
 jobs:
   build:
     working_directory: ~/auth-service
@@ -59,7 +63,7 @@ jobs:
 
 workflows:
   version: 2.1
-  build_test:
+  build_test_deploy:
     jobs:
       - build
       - lint:
@@ -68,3 +72,16 @@ workflows:
       - test:
           requires:
             - build
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          region: AWS_DEFAULT_REGION
+          repo: '$AWS_ECR_REPO'
+          tag: '$CIRCLE_SHA1'
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only: development
