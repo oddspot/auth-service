@@ -34,6 +34,6 @@
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^4.1.0",
     "ts-node-dev": "^1.0.0-pre.43",
-    "typeorm": "^0.2.19"
+    "typeorm": "^0.2.25"
   }
 }
